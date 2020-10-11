@@ -64,7 +64,14 @@ def ebaySearch(item):
     ebay_price = ebay_price.replace('$', '')
     try:
         ebay_price = float(ebay_price)
+    except ValueError:
+        if ('to' in ebay_price):
+            start = ebay_price.find( '' )
+            end = ebay_price.find( ' ', start )
+            res = ebay_price[start:end]
+            ebay_price = float(res)
+            print(ebay_price)
+        
     
     
-
 ebaySearch(item)
