@@ -34,7 +34,7 @@ def ebaySearch(item):
     item = item.replace(' ', '+') #only for ebay
 
     print('Searching eBay...')
-    URL_eb = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR12.TRC2.A0.H0.XApple+iPhone.TRS0&_nkw=' + item
+    URL_eb = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR12.TRC2.A0.H0.XTRS0&_nkw=' + item
     page = requests.get(URL_eb)
     soup = BeautifulSoup(page.content, 'html.parser')
     results = soup.find(id='mainContent')
@@ -70,8 +70,5 @@ def ebaySearch(item):
             end = ebay_price.find( ' ', start )
             res = ebay_price[start:end]
             ebay_price = float(res)
-            print(ebay_price)
-        
-    
     
 ebaySearch(item)
