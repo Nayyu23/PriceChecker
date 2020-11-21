@@ -34,8 +34,8 @@ def ebaySearch(item):
     item = item.replace(' ', '+') #only for ebay
 
     print('Searching eBay...')
-    URL_eb = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR12.TRC2.A0.H0.XTRS0&_nkw=' + item
-    page = requests.get(URL_eb)
+    URL = 'https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313.TR12.TRC2.A0.H0.XTRS0&_nkw=' + item
+    page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     results = soup.find(id='mainContent')
     allListings = results.find_all('li', class_='s-item')
@@ -70,5 +70,37 @@ def ebaySearch(item):
             end = ebay_price.find( ' ', start )
             res = ebay_price[start:end]
             ebay_price = float(res)
+
+def amazonSearch(item):
+    item = item.replace(' ', '+')
+    print("Searching Amazon...")
+
+    URL = 'https://www.amazon.com/s?k=' + item
+    driver.get(URL)
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    runs = 0
+    results = soup.findAll('span', attrs={'class': 'a-size-medium a-color-base a-text-normal'})
+    for listing in results:
+        if runs >= 1: break
+        print(soup.select_one('span.a-size-medium').get_text())
+        runs += 1
+
+    runs = 0
+    results = soup.findAll('span', attrs={'class': 'a-offscreen'})
+    for listing in results:
+        if runs >= 1: break
+        element = soup.select_one('span.a-offscreen')
+        if None in element:
+            continue
+        print(element.get_text())
+        print()
+        print()
+        runs += 1
+
+    # save price
+    amazon_price = item_price.text.strip()
+    amazon_price = amazon_price.replace('$', '')
+    amazon_price = float(amazon_price)
     
 ebaySearch(item)
+amazonSearch(item)
