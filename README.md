@@ -1,1 +1,1 @@
-# PriceChecker
+Run PriceCheck.py
